@@ -1,0 +1,1 @@
+latex and resources files for the first project
