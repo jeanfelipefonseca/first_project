@@ -1,0 +1,17 @@
+\chapter{Conclusão}
+\label{conclusao}
+
+Este projeto apresenta a técnica de rotação da constelação, que melhorar o desempenho de sistemas de comunicações móveis em canais de comunicações sujeitos aos efeitos do desvanecimento plano. Os canais de comunicações móveis podem ser diferenciados por existir uma linha de visada (LOS) entre o transmissor e o receptor e a componente de múltiplos percursos, ou só os múltiplos percursos. O sinal recebido com visada direta, além da componente de múltiplos percursos, é conhecido por ter a distribuição Rice. 
+
+A relação entre as componentes de visada direta e a componente difusa é dada pelo o fator de Rice, $K$, que mede a intensidade relativa da componente de visada direta, e portanto, é uma medida da qualidade da transmissão. O valor do fator de Rice é uma medida de desvanecimento, com $K = 0$ sendo o pior caso do desvanecimento (\textit{Rayleigh fading}).
+
+Neste projeto foi mostrado como é possível encontrar o valor de $K$ para diferentes situações. A estimação do $K$ apresentada leva em consideração a temporada climática, a altura da antena e a largura do feixe da antena. Também foram apresentados os valores de $K$ obtidos por medições em quatro diferentes ambientes. A partir dessas medições é possível saber o valor de $K$ para os ambientes de área aberta ($k=8,05$), de área suburbana ($K=7,03$), área urbana de baixa renda ($K=5,15$), área urbana de média densidade ($K=3,93$) e área urbana de alta densidade ($K=0$).
+
+Com os valores de $K$ para os diferentes ambientes foi verificado qual era o ângulo ótimo para cada um dos ambientes em diferentes esquemas de modulação. A partir dessa avaliação verificou-se que para cada esquema de modulação existe um ângulo ótimo e que para os diferentes ambientes existem poucas diferenças no comportamento do sinal com a variação do ângulo.
+
+Os resultados apresentados mostram algumas opções para a escolha do ângulo de rotação para os esquemas de modulação 4-QAM, 16-QAM e 64-QAM. Para o 4-QAM os melhores resultados foram 27°, 28° e 29°. Para o 16-QAM os melhores resultados foram para os ângulos 16,8°, 21° e 31°. Para o 64-QAM os melhores resultados obtidos foram 16,8°, 21° e 31°. Com a rotação da constelação, para os melhores ângulos, se obtém até 7~dB de ganho em relação ao sistema sem a rotação.
+
+Para os esquemas de modulação 16-QAM e 64-QAM os melhores ângulos obtidos não foram os que estão sendo usados no DVB-T2, sendo a maior diferença no 64-QAM na qual usa o ângulo de 8,6° que representou para alguns valores de SNR uma perda em ralação ao ângulo de 31° de até 1~dB.
+
+Mais testes devem ser realizados levando em consideração o erro de estimação de fase e o efeito do \textit{jitter} de fase. Considerando esses dois efeitos é possível verificar qual o melhor ângulo a ser usado, já que com esses efeitos o ângulo identificado na recepção pode estar em um ponto no qual a transmissão não tenha um bom desempenho.
+

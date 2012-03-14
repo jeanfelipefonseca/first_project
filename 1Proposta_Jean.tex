@@ -1,0 +1,184 @@
+%================================================================================
+%
+%	Modelo para Relatórios Oficiais (TCC, Estágio, Dissertação,Teses e Projetos)
+%	Autor: Carlos Danilo M. Regis
+%
+%================================================================================
+
+\documentclass[a4paper,12pt,titlepage]{report} %declaração da classe do documento
+
+%============================== Pacotes adicionados =============================
+
+\usepackage[brazil]{babel} % português brasileiro 
+\usepackage[latin1]{inputenc} % acentuação direta
+\usepackage[T1]{fontenc} % codificação de fonte (fonte de 8 bits, util para PDF)
+\usepackage{geometry} % dimensionamento da página e das margens
+\usepackage{indentfirst} % identação do 1ª parágrafo
+\usepackage{amsmath,amssymb,amsfonts} % recursos matemáticos (amsmath->recursos avançados, amssymb->símbolos adicionais e amsfonts->fontes adicionais)
+\usepackage{graphicx} % uso de gráficos 
+\usepackage{setspace} % espaço entre linhas(\singlespacing, \onehalfspacing ou \doublespacing)
+%\usepackage{ulem} % produz diversos tipos de sublinhado
+\usepackage{times} % permite o uso da família Times(helvetica, Times e courier)
+\usepackage{fancyhdr}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{titlesec} % para criar titulo de capitulo personalisado
+\usepackage{pifont} %uso de dingbats
+\usepackage{wasysym} %mais figurinhas
+\usepackage{marvosym}
+\usepackage{longtable}
+\usepackage[bitstream-charter]{mathdesign}
+
+
+% ============================ Configurações ==========================
+
+%------------------------------------Margens----------------------------------------
+% Acerto de margens, usando o comando \geometry{}:
+% lmargin -> left (esquerda). Interna, se frente/verso
+% rmargin -> right (direita). Externa, se frente/verso
+% tmargin -> top (superior).
+% bmargin -> bottom (inferior).
+% headsep = espaço entre o cabeçalho e o texto
+% footskip = espaço entre o texto e o rodapé
+\geometry{verbose,a4paper,tmargin=3cm,bmargin=2cm, lmargin=3cm,rmargin=2cm,headsep=5mm,footskip=0cm}
+
+%---------------------------------------Ajuste do texto------------------------------------------
+% Controlar linhas orfas e viuvas, que as vezes sobram no começo ou no fim de uma página.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\setlength{\parindent}{1.25cm} % indentação do parágrafo
+
+\renewcommand{\contentsname}{Índice}
+
+%------------------------------------------------------Algoritmos --------------------------------------------
+ \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+ \renewcommand{\algorithmicensure}{\textbf{Saída:}}
+ \renewcommand{\algorithmicend}{\textbf{fim}}
+ \renewcommand{\algorithmicif}{\textbf{se}}
+ \renewcommand{\algorithmicthen}{\textbf{então}}
+ \renewcommand{\algorithmicelse}{\textbf{caso contrário}}
+ \renewcommand{\algorithmicelsif}{\algorithmicelse\ \algorithmicif}
+ \renewcommand{\algorithmicendif}{\algorithmicend\ }
+ \renewcommand{\algorithmicfor}{\textbf{para}}
+ \renewcommand{\algorithmicforall}{\textbf{para todo}}
+ \renewcommand{\algorithmicdo}{\textbf{faça}}
+ \renewcommand{\algorithmicendfor}{\algorithmicend\ do \algorithmicloop\ `\algorithmicfor'}
+ \renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+ \renewcommand{\algorithmicendwhile}{\algorithmicend\ do \algorithmicloop\ `\algorithmicwhile'}
+ \renewcommand{\algorithmicloop}{\textbf{laço}}
+ \renewcommand{\algorithmicendloop}{\algorithmicend\ \algorithmicloop}
+ \renewcommand{\algorithmicrepeat}{\textbf{repetição}}
+ \renewcommand{\algorithmicuntil}{\textbf{até}}
+ \renewcommand{\algorithmicprint}{\textbf{imprime}}
+ \renewcommand{\algorithmicreturn}{\textbf{retorna}}
+ \renewcommand{\algorithmiccomment}[1]{//\itshape #1}
+ 
+ \floatname{algorithm}{Algoritmo}
+ 
+ \renewcommand{\listalgorithmname}{Lista de Algoritmos}
+
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\fancyhf{}
+\fancyhead[LE,LO]{\footnotesize\bfseries\leftmark}
+\fancyhead[RO,RE]{\normalsize\bfseries\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{2.5pt} 
+\fancypagestyle{plain}{%
+   \fancyhead{} 
+   \renewcommand{\headrulewidth}{0pt} % e a linha
+}
+
+%========================================= Capítulo Enfeitado ==========================================
+\titleformat{\chapter}[display]
+{\bfseries\Large\filcenter}
+{{\Large\scshape\chaptertitlename~\thechapter}} % denominacao "capitulo" e numeracao de capitulo
+{1pc}
+  % o que vai fazer antes de por o titulo
+{\titlerule[1.5pt]
+  \vspace{2pt}
+  \titlerule
+  \vspace{1pc}%
+  \Huge} % apos este, insere o titulo...
+  [\vspace{1pc} % o que fazer depois do titulo
+   \titlerule]
+
+%---------------------------------------------------- Marcadores----------------------------------------------
+\newcommand{\ponto}{\item[{\large \ding{252}}]} % a ser usado em listas
+
+%---------------------------------------------------- Espaçamento entre parágrafos ------------------------
+\setlength{\parskip}{0pt} 
+
+\begin{document}
+
+%-------------------------------------------- Comandos de ajuste da bibliografia usando o abntex ------------------------------------------------
+
+\include{capas}
+
+%%
+%% Parte pré-textual - tudo que vier descrito após esse comando é considerado como pré-texto e, sendo assim,
+%% sua numeração será diferenciada, no caso, será romana.
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%\include{agradecimentos}
+
+% Sumário
+% Comente para ocultar
+\tableofcontents
+%
+% Lista de figuras
+% Comente para ocultar
+\listoffigures
+
+% Lista de tabelas
+% Comente para ocultar
+\listoftables
+
+\onehalfspacing
+
+%\include{abreviaturas}
+
+%% Parte textual - tudo que vier descrito após esse comando é considerado como texto propriamente dito e, sendo 
+%% assim, sua numeração será diferenciada, no caso, será arabica.
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{introducao/introducao}
+\include{rotacao/rotacao}
+\include{rice/rice}
+%\include{canal/canal}
+%\include{modulacao/modulacao}
+%\include{resultados/resultados}
+%\include{conclusao/conclusao}
+
+
+%%
+%% Parte pós-textual
+%%
+
+%\appendix 
+
+% \include{apendice}
+
+% Bibliografia
+% É aconselhável utilizar o BibTeX a partir de um arquivo, digamos "biblio.bib".
+% Para ajuda na criação do arquivo .bib e utilização do BibTeX, recorra ao
+% BibTeXpress em www.cin.ufpe.br/~paguso/bibtexpress
+%\nocite{*}
+\bibliographystyle{plain}
+
+%\bibliographystyle{unsrtnat}
+\bibliography{bibliografia/referencias}
+\addcontentsline{toc}{chapter}{Referências Bibliográficas}
+
+\appendix 
+
+\include{apendice/clarke}
+
+\end{document}
+

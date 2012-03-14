@@ -1,0 +1,823 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+%\usecolortheme[named=OliveGreen]{structure}
+%\usetheme{Boadilla}
+%\usetheme{Madrid}
+%\usetheme{Malmoe} 
+%\usetheme{Singapore} 
+%\usetheme{Warsaw}
+%\usetheme{Copenhagen}
+\usetheme{Frankfurt}
+%\usetheme{CambridgeUS}
+%\setbeamercolor{structure}{fg=OliveGreen!50!black} 
+%\usecolortheme[named=Blue]{structure} 
+%muda a cor do slide
+
+  %  Bergen, Berkeley, Berlin, Boadilla, Copenhagen, Darmstadt,
+  % Dresden, Frankfurt, Goettingen, Hannover, Ilmenau, JuanLesPins,
+  % Luebeck, Madrid, Malmoe, Marburg, Montpellier, PaloAlto, Pittsburgh,
+  % Rochester, Singapore, Szeged, Warsaw, boxes, default.
+
+%\usecolortheme[named=OliverGreen]{structure} 
+%muda a cor do slide
+
+\usepackage{amsmath,amssymb}
+\usepackage[brazil]{varioref}
+\usepackage[english,brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{colortbl}
+\usepackage{multimedia}
+
+\setbeamertemplate{blocks}[rounded][shadow=true] 
+\setbeamerfont{structure}{family=\rmfamily,series=\bfseries,shape=\scshape} 
+\setbeamertemplate{items}[ball] 
+\setbeamertemplate{blocks}[rounded][shadow=true] 
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}[frame number]
+
+\title[Transmissão de Vídeos]{\textit{Avaliação da Rotação de Constelações M-QAM em Canais com Desvanecimento Rice}}
+\author[Danilo Regis]{Carlos Danilo M. Regis\\ danilo@iecom.org.br\\}
+  \institute[Iecom]{Orientador:\\
+Dr. Marcelo Sampaio de Alencar\\
+}
+
+  
+%\logo{\includegraphics[height=1cm]{logo_iecom}} 
+  
+\begin{document}
+
+\frame{\titlepage}
+
+\section[Sumário]{}
+\frame{\tableofcontents}
+
+\section{Introdução}
+
+\frame{
+	\frametitle{Introdução}
+\begin{center}
+\begin{block}{}
+\begin{center}
+\begin{itemize}
+	\item A rotação da constelação é uma técnica que melhora o desempenho de sistemas de comunicações móveis. Essa técnica esta sendo utilizada no padrão DVB-T2.
+\end{itemize}
+\end{center}
+\end{block}
+
+\pause
+
+\begin{block}{}
+\begin{center}
+\begin{itemize}
+	\item A distribuição de Rice é usada na transmissão de dados para representar o sinal recebido que é composto por uma componente de visada direta e componentes de múltiplos percursos.
+\end{itemize}
+\end{center}
+\end{block}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.4]{rice/canal_rice}
+    %\caption{Canal com desvanecimento Rayleigh.}
+    \label{fig:canal_rice}
+\end{figure}	
+
+
+\end{center}
+}
+
+\frame{
+	\frametitle{Introdução}
+\begin{center}
+\begin{block}{}
+\begin{center}
+\begin{itemize}
+	\item A distribuição de Rice permite simular diferentes	ambientes, variando o fator de Rice $K$. %Dentre esses ambiente pode ser citado o ambiente de área aberta, suburbana, Urbana de baixa densidade, urbana de média densidade e urbana de alta densidade.
+\end{itemize}
+\end{center}
+\end{block}
+
+%\vspace{-0.5cm}
+
+\begin{table}[!htbp]%[htbp]
+\small
+\begin{center}
+%\caption{Parâmetros estimados para a distribuição de Rice~[20].}
+%\vspace{-0.5cm}
+\begin{tabular}{|c|c|}
+\hline \textbf{Ambiente}  & \textbf{$K$ (dB)} \\ \hline
+\hline Área aberta                   & 8,0504   \\
+\hline Suburbana                     & 7,0261   \\
+\hline Urbana baixa densidade        & 5,1519     \\
+\hline Urbana média densidade        & 3,9349   \\
+\hline Urbana alta densidade         & 0 \\ 
+\hline
+\end{tabular} 
+\label{exp_Rice1}
+\end{center}
+\end{table}	
+
+%\vspace{-0.5cm}
+
+\begin{block}{}
+\begin{center}
+\begin{itemize}
+	\item Para verificar o desempenho do sistema ISDB-Tb com a rotação da constelação é necessário encontrar o ângulo ótimo para as diferentes situações (ambientes, esquemas de modulação).
+\end{itemize}
+\end{center}
+\end{block}
+
+
+\end{center}
+}
+
+\section{Rotação da Constelação}
+
+\frame{
+	\frametitle{Rotação da Constelação}
+
+\begin{block}{ Rotação da Constelação:} é a técnica que  consiste em introduzir redundância por meio de uma escolha adequada do ângulo de referência de uma constelação QAM  combinada com o entrelaçamento independente das componentes dos símbolos a serem transmitidos. 
+\end{block}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.4]{rotacao/const-rocionada.png}
+    %\caption{Canal com desvanecimento Rayleigh.}
+    \label{fig:rotacao}
+\end{figure}	
+
+
+}
+
+\frame{
+	\frametitle{Rotação da Constelação}
+
+
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.4]{rotacao/Tudo2}
+    %\caption{Canal com desvanecimento Rayleigh.}
+    \label{fig:sistema}
+\end{figure}	
+
+
+}
+
+
+\section{Canal Rice}
+
+\frame{
+	\frametitle{Desvanecimento Rice}
+\begin{block}{Modelagem Matemática}
+A componente especular pode ser modelada matematicamente
+como uma  das cópias do sinal que incidem sobre o móvel
+\begin{equation}
+r_0 = Re\{T_0 (t) e^{jw_ct}\} = A_0 \cos(w_ct + w_0t + \phi_0) .
+\label{Van.3.34}
+\end{equation}
+
+  Como o sinal recebido é formado pela soma das componentes
+decorrentes do espalhamento na vizinhança do móvel com a
+componente especular, os coeficientes de transmissão podem ser
+modelados por
+
+\begin{equation}
+u(t)= A_0 e^{j(w_0t + \phi_0)} + \sum_{n=1}^{M} A_n e^{j(w_nt + \phi_n)} .
+\label{vand.3.36}
+\end{equation}
+\end{block}
+}
+
+\frame{
+	\frametitle{Desvanecimento Rice}
+\begin{block}{Modelagem Matemática}
+O valor médio quadrático de $u(t)$ é dado por
+\begin{equation}
+b_R = A_0^2 + 2 \sigma^2 . \nonumber 
+\label{vand.3.37}
+\end{equation}
+
+A potência da componente especular é determinada por $A_0^2$ e a potência das componentes espalhadas é dada por $2\sigma^2$. A razão entre ambas é o fator $K$ ou fator de Rice
+
+\begin{equation}
+K =  \dfrac{A_0^2}{2 \sigma^2}. \nonumber 
+%\label{vand.3.38}
+\end{equation}
+\end{block}
+}
+
+\frame{
+	\frametitle{Desvanecimento Rice}
+\begin{block}{A fdp da distribuição de Rice para $r \geq 0$, é dada por}
+
+\begin{center}
+\begin{eqnarray}
+f_{|u|}(r) = \dfrac{2r(K + 1)}{b_R}\mbox{exp}\left(-K - \dfrac{r^2(K + 1)}{b_R}\right) I_0\left(2r\sqrt{\dfrac{K(K +1)}{b_R}}\right),  \nonumber 
+%\label{vand.3.44}
+\end{eqnarray}
+\end{center}
+\end{block}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.3]{rice/fuc_dens_rice}
+    %\caption{Canal com desvanecimento Rayleigh.}
+    \label{fig:funcao}
+\end{figure}
+
+}
+
+\frame{
+	\frametitle{Estimação do fator $K$}
+	\begin{block}{}
+A partir de fatores e do modelo estatístico de primeira ordem para $K$, é possível chegar à seguinte equação
+\begin{equation}
+K \cong F_s F_h F_b K_o d^{\gamma} (d~\mbox{em~km}) . \nonumber
+\label{eq:10}
+\end{equation}
+\vspace{-0.5cm}
+\begin{enumerate}
+\item $F_s$ é o fator da temporada
+
+\begin{equation}
+F_s = \left \{
+\begin{array}{ll}
+1.0, & \mbox{Verão~~(folhas)} ,\\
+2.5, & \mbox{Inverno~~(sem~folhas)}  \nonumber \\	
+\end{array}
+\right.
+\label{eq:11}
+\end{equation}
+
+\item $F_h$ é o fator da altura da antena
+
+\begin{equation}
+F_h = (h/3)^{0.46}~~(h~\mbox{em~metros}) . \nonumber
+\label{eq:12}
+\end{equation}
+\item $F_b$ é o fator da largura do feixe da antena
+
+\begin{equation}
+F_b = (b/17)^{-0.62}~~(b~\mbox{em~graus}~(°)) . \nonumber
+\label{eq:13}
+\end{equation}
+%$K_o$ e $\gamma$ são contantes de otimização encontradas por regressão~\cite{IEEE802}.
+
+\end{enumerate}
+\end{block}
+}
+
+\frame{
+	\frametitle{Estimação do fator $K$}
+\begin{table}[!htbp]%[htbp]
+\small
+\begin{center}
+\caption{Fator de $K$ médio~[14].}
+\vspace{0.5cm}
+\begin{tabular}{|c|c|c|c|c|}
+\hline \textbf{Largura de feixe} & \multicolumn{2}{|c|}{\textbf{Verão}} & \multicolumn{2}{|c|}{\textbf{Inverno}} \\ 
+ \textbf{da antena} & \multicolumn{2}{|c|}{\textbf{(Folhas)}} & \multicolumn{2}{|c|}{\textbf{(Sem Folhas)}}  \\ \hline
+ \hline              & $h = 3$m      & $h = 10$m     & $h = 3$m & $h = 10$m \\
+\hline 17°           & 6,0 dB        & 8,0 dB        & 10,0 dB  & 12,5 dB  \\
+\hline 30°           & 4,5 dB        & 7,5 dB        & 9,0 dB   & 11,0 dB \\
+\hline 65°           & 2,5 dB        & 5,0 dB        & 6,0 dB   & 8,5 dB  \\
+\hline
+\end{tabular} 
+\label{exp_Rice2}
+\end{center}
+\end{table}
+}
+
+
+
+
+
+
+
+
+
+\section{Avaliação dos resultados}
+\frame{
+\frametitle{Avaliação dos resultados}
+\begin{block}{}
+\begin{enumerate}
+\item Apresenta-se o ângulo ótimo de rotação para os esquemas de modulação 4-QAM, 16-QAM e 64-QAM.
+\begin{itemize}
+\item Ambiente de área aberta;
+\item Ambiente de área suburbana;
+\item Ambiente urbana de baixa densidade;
+\item Ambiente urbana de média densidade;
+\item Ambiente urbana de alta densidade.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\item Mostra-se a avaliação da BER para os esquemas modulação 4-QAM, 16-QAM e 64-QAM.
+\end{enumerate}
+\end{block}
+}
+
+
+\frame{
+\frametitle{Avaliação do angulo ótimo de rotação}
+\begin{block}{Modulação 4-QAM}
+	\begin{figure}[!ht]
+	\begin{minipage}[h]{.4\linewidth}
+\includegraphics[scale=0.25]{resultados/angulo4qamR0}
+\end{minipage}
+	\begin{minipage}[h]{.05\linewidth}
+~
+\end{minipage}
+\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/angulo4qamR805}
+\end{minipage}
+	\caption{Gráfico do angulo ótimo para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+	\label{awgn_paris}
+	\end{figure}
+	\end{block}}
+
+%\frame{
+%\frametitle{Avaliação do angulo ótimo de rotação}
+%\begin{block}{Modulação 4-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/angulo4qamR0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo4qamR394}
+%\end{minipage}
+%	\caption{Gráfico do angulo ótimo para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%	\label{awgn_paris}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 4-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo4qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/angulo4qamR702}
+%	\end{minipage}
+%		\caption{Gráfico do angulo ótimo para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%		\label{702}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 4-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/angulo4qamR805}
+%    \caption{Gráfico do angulo ótimo para o esquema de modulação 4-QAM em um canal Rice, $K=8,05$.}
+%    \label{fig:805}
+%\end{figure}
+%\end{block}
+%}
+
+\frame{
+\frametitle{Avaliação do angulo ótimo de rotação}
+\begin{block}{Modulação 16-QAM}
+	\begin{figure}[!ht]
+	\begin{minipage}[h]{.4\linewidth}
+\includegraphics[scale=0.25]{resultados/angulo16qamR0}
+\end{minipage}
+	\begin{minipage}[h]{.05\linewidth}
+~
+\end{minipage}
+\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/angulo16qamR805}
+\end{minipage}
+	\caption{Gráfico do angulo ótimo para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+	\label{16}
+	\end{figure}
+	\end{block}}
+
+%\frame{
+%\frametitle{Avaliação do angulo ótimo de rotação}
+%\begin{block}{Modulação 16-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/angulo16qamR0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo16qamR394}
+%\end{minipage}
+%	\caption{Gráfico do angulo ótimo para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%	\label{16}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 16-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo16qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/angulo16qamR702}
+%	\end{minipage}
+%		\caption{Gráfico do angulo ótimo para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%		\label{702}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 16-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/angulo16qamR805}
+%    \caption{Gráfico do angulo ótimo para o esquema de modulação 16-QAM em um canal Rice, $K=8,05$.}
+%    \label{fig:805}
+%\end{figure}
+%\end{block}
+%}	
+
+\frame{
+\frametitle{Avaliação do angulo ótimo de rotação}
+\begin{block}{Modulação 64-QAM}
+	\begin{figure}[!ht]
+	\begin{minipage}[h]{.4\linewidth}
+\includegraphics[scale=0.25]{resultados/angulo64qamR0}
+\end{minipage}
+	\begin{minipage}[h]{.05\linewidth}
+~
+\end{minipage}
+\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/angulo16qamR805}
+\end{minipage}
+	\caption{Gráfico do angulo ótimo para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+	\label{16}
+	\end{figure}
+	\end{block}}
+	
+%\frame{
+%\frametitle{Avaliação do angulo ótimo de rotação}
+%\begin{block}{Modulação 64-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/angulo64qamR0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo64qamR394}
+%\end{minipage}
+%	\caption{Gráfico do angulo ótimo para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%	\label{16}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 64-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/angulo64qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/angulo64qamR702}
+%	\end{minipage}
+%		\caption{Gráfico do angulo ótimo para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%		\label{702}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 64-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/angulo16qamR805}
+%    \caption{Gráfico do angulo ótimo para o esquema de modulação 64-QAM em um canal Rice, $K=8,05$.}
+%    \label{fig:805}
+%\end{figure}
+%\end{block}
+%}	
+	
+	
+	\frame{
+	\frametitle{Avaliação da BER para o ângulo ótimo}
+	\begin{block}{Modulação 4-QAM}
+		\begin{figure}[!ht]
+		\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/BER4qam_R0}
+	\end{minipage}
+		\begin{minipage}[h]{.05\linewidth}
+	~
+	\end{minipage}
+	\begin{minipage}[h]{.4\linewidth}
+		\includegraphics[scale=0.25]{resultados/BER4qamR805}
+	\end{minipage}
+		\caption{Gráfico da BER para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+			\label{BER4qam_R0}
+		\end{figure}
+		\end{block}}
+	
+	
+%\frame{
+%\frametitle{Avaliação da BER para o ângulo ótimo}
+%\begin{block}{Modulação 4-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/BER4qam_R0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER4qamR394}
+%\end{minipage}
+%	\caption{Gráfico da BER para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%		\label{BER4qam_R0}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 4-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER4qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/BER4qamR702}
+%	\end{minipage}
+%		\caption{Gráfico da BER para o esquema de modulação 4-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%			\label{BER4qamR515}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 4-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/BER4qamR805}
+%    \caption{Gráfico da BER para o esquema de modulação 4-QAM em um canal Rice, $K=8,05$.}
+%    \label{BER4qamR805}
+%\end{figure}
+%\end{block}
+%}
+
+\frame{
+\frametitle{Avaliação da BER para o ângulo ótimo}
+\begin{block}{Modulação 16-QAM}
+	\begin{figure}[!ht]
+	\begin{minipage}[h]{.4\linewidth}
+\includegraphics[scale=0.25]{resultados/BER16qamR0}
+\end{minipage}
+	\begin{minipage}[h]{.05\linewidth}
+~
+\end{minipage}
+\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/BER16qamR805}
+\end{minipage}
+	\caption{Gráfico da BER para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+		\label{BER16qamR0}
+	\end{figure}
+	\end{block}}
+
+%\frame{
+%\frametitle{Avaliação da BER para o ângulo ótimo}
+%\begin{block}{Modulação 16-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/BER16qamR0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER16qamR394}
+%\end{minipage}
+%	\caption{Gráfico da BER para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%		\label{BER16qamR0}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 16-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER16qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/BER16qamR702}
+%	\end{minipage}
+%	\caption{Gráfico da BER para o esquema de modulação 16-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%		\label{BER16qamR515}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 16-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/BER16qamR805}
+%    \caption{Gráfico da BER para o esquema de modulação 16-QAM em um canal Rice, $K=8,05$.}
+%    \label{BER16qamR805}
+%\end{figure}
+%\end{block}
+%}	
+	
+	\frame{
+	\frametitle{Avaliação da BER para o ângulo ótimo}
+	\begin{block}{Modulação 64-QAM}
+		\begin{figure}[!ht]
+		\begin{minipage}[h]{.4\linewidth}
+	\includegraphics[scale=0.25]{resultados/BER64qamR0}
+	\end{minipage}
+		\begin{minipage}[h]{.05\linewidth}
+	~
+	\end{minipage}
+	\begin{minipage}[h]{.4\linewidth}
+		\includegraphics[scale=0.25]{resultados/BER64qamR805}
+	\end{minipage}
+		\caption{Gráfico da BER para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=8,05$.}
+			\label{BER64qamR0}
+		\end{figure}
+		\end{block}}
+	
+%\frame{
+%\frametitle{Avaliação do angulo ótimo de rotação}
+%\begin{block}{Modulação 64-QAM}
+%	\begin{figure}[!ht]
+%	\begin{minipage}[h]{.4\linewidth}
+%\includegraphics[scale=0.25]{resultados/BER64qamR0}
+%\end{minipage}
+%	\begin{minipage}[h]{.05\linewidth}
+%~
+%\end{minipage}
+%\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER64qamR394}
+%\end{minipage}
+%	\caption{Gráfico da BER para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=0$ e lado direito para $K=3,94$.}
+%		\label{BER64qamR0}
+%	\end{figure}
+%	\end{block}}
+%	
+%	\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 64-QAM}
+%		\begin{figure}[!ht]
+%		\begin{minipage}[h]{.4\linewidth}
+%	\includegraphics[scale=0.25]{resultados/BER64qamR515}
+%	\end{minipage}
+%		\begin{minipage}[h]{.05\linewidth}
+%	~  
+%	\end{minipage}
+%	\begin{minipage}[h]{.4\linewidth}
+%		\includegraphics[scale=0.25]{resultados/BER64qamR702}
+%	\end{minipage}
+%		\caption{Gráfico da BER para o esquema de modulação 64-QAM em um canal Rice. Lado esquerdo para $K=5,15$ e lado direito para $K=7,02$.}
+%			\label{BER64qamR515}
+%		\end{figure}
+%		\end{block}}
+%	
+%\frame{
+%	\frametitle{Avaliação do angulo ótimo de rotação}
+%	\begin{block}{Modulação 64-QAM}
+%
+%\begin{figure}[ht!]
+%    \centering
+%    \includegraphics[scale=0.3]{resultados/BER64qamR805}
+% 	\caption{Gráfico da BER para o esquema de modulação 64-QAM em um canal Rice, $K=8,05$.}
+% \label{BER64qamR805}
+%\end{figure}
+%\end{block}
+%}		
+	
+
+
+
+
+\section{Conclusões}
+
+\frame{
+	\frametitle{Conclusões}
+	\begin{block}{4-QAM}
+	\begin{itemize}
+	\item os melhores resultados foram 27°, 28° e 29°,
+	\item ganho de 11 dB, para $\theta = 0°$,
+	\item Não há diferença na BER.
+\end{itemize}
+	\end{block}
+	\pause
+	
+		\begin{block}{16-QAM}
+	\begin{itemize}
+	\item os melhores resultados foram para os ângulos 16,8°, 21° e \textcolor{red}{ 31°},
+	\item ganho de 8 dB, para $\theta = 0°$,
+	\item Só existe diferença na BER para SNR $>$ 10 dB.
+\end{itemize}
+	\end{block}
+	\pause
+		\begin{block}{64-QAM}
+		\begin{itemize}
+		\item os melhores resultados obtidos foram 16,8°, 21° e \textcolor{red}{ 31°},
+		\item ganho de 6 dB, para $\theta = 0°$,
+		\item Só existe diferença na BER para SNR $>$ 15 dB.
+		\end{itemize}
+		\end{block}
+}
+
+\frame{
+	\frametitle{Conclusões}
+			\begin{block}{Comparação com o DVB-T2}
+\begin{table}[!htbp]%[htbp]
+\small
+\begin{center}
+%\caption{Fator de $K$ médio~[14].}
+\vspace{0.5cm}
+\begin{tabular}{|c|c|c|c|}
+\hline \textbf{Modulação} & \textbf{DVB-T2} & \textbf{Simulação} &\textbf{Ganho} \\ 
+\hline  4-QAM            & 29°      & 27°, 28° e 29°  & --   \\
+\hline 16-QAM            & 16,8°   & 31°   & $<< 1 $dB       \\
+\hline 64-QAM            & 8,6°    & 31°    & 1 dB para $K = 0$     \\
+                   &         &     & $>$ 2 dB    \\
+\hline
+\end{tabular} 
+\label{exp_Rice3}
+\end{center}
+\end{table}
+	\end{block}
+}
+
+
+%\section{Trabalho Futuros}
+
+\frame{
+	\frametitle{Trabalhos Futuros}
+	\begin{block}{}
+	\begin{enumerate}
+	\item Aumentar a precisão em torno dos pontos ótimos;
+	\vspace{0.5cm}
+	\item Verificar o erro de estimação de fase para a escolha do ângulo;
+	\vspace{0.5cm}
+	\item Verificar o \textit{Jitter} de fase para a escolha do ângulo.
+	\end{enumerate}
+	\end{block}
+}
+
+
+%
+%\frame{
+%	\frametitle{Trabalhos Futuros}
+%	\begin{block}{}
+%		\begin{itemize}
+%	\item Inserir ruído de transmissão no vídeo
+%\end{itemize}
+%\end{block}
+%	
+%\begin{figure}[hbt]
+%%	\centering
+%	\includegraphics[scale=0.5]{figuras/sistema_TV1}
+%	%\caption{Gráfico do SIMM para os vídeos transcodificados.}
+%	\label{psnr_cod_video}
+%		\end{figure}
+%
+%}
+
+\bibliographystyle{plain}
+
+%\bibliographystyle{unsrtnat}
+\bibliography{bibliografia/referencias}
+
+\end{document}

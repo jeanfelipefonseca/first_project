@@ -1,0 +1,19 @@
+
+\chapter{Introdução}
+\label{introducao}
+
+Nas comunicações móveis, quando há uma linha de visada (LOS) entre o transmissor e o receptor, o sinal recebido %pode ser escrito como a soma de exponenciais complexas e um processo Gaussiano de faixa estreita, que são conhecidos 
+é descrito como uma componente de visada direta e a componente de múltiplos percursos, respectivamente. Esse sinal recebido é conhecido por ter a distribuição Rice~\cite{Doukas2006}. 
+
+A relação entre as componentes de visada direta e a componente difusa é dada pelo o fator de Rice, $K$, que mede a intensidade relativa da componente de visada direta, e, portanto, é uma medida da qualidade da transmissão. O valor do fator de Rice é uma medida de desvanecimento, com $K = 0$ sendo o pior caso do desvanecimento (\textit{Rayleigh fading}) e $K = \infty$ representando a ausência de desvanecimento.
+
+Esse desvanecimento, causado por múltiplos percursos em canais de comunicação sem fio, pode degradar o desempenho dos sistemas de comunicação digital. Assim, várias técnicas têm sido propostas para melhorar seu desempenho. Entre elas, pode-se citar as técnicas de diversidade, os esquemas de modulação codificada~\cite{Lopes2003} e a rotação da constelação.
+
+A rotação da constelação é uma técnica que  consiste em introduzir redundância por meio de uma escolha criteriosa do ângulo de referência de uma constelação QAM, combinada com o entrelaçamento independente das componentes dos símbolos a serem transmitidos~\cite{Feideropoulou2007,Caldero2011,Caldero2009}.%,~\cite{Caldero2011},~\cite{Caldero2009}.
+
+Essa técnica pode melhorar o desempenho de sistemas de comunicações móveis considerando a ausência de erros de estimação da resposta ao impulso (RI) do canal e que o canal de comunicações está sujeito aos efeitos do desvanecimento plano~\cite{kenneth,slimane98,boutros.98.7,jelicic95,divsalar88}. 
+
+Neste projeto são mostrados métodos de estimação do fator $K$ de Rice, assim como valores de $K$ para diferentes situações. Também é apresentado o desempenho da rotação da constelação para o canal Rice. 
+
+Para verificar o desempenho do sistema com a rotação da constelação é verificado o ângulo ótimo para as diferentes situações (ambientes, esquemas de modulação). Além da escolha do ângulo ótimo, foi comparado o efeito da rotação verificando a BER do sistema com e sem a rotação da constelação.
+

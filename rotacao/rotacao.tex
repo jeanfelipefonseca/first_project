@@ -1,0 +1,82 @@
+\chapter{Rotação da Constelação}
+\label{rotacao}
+
+Várias técnicas vem sendo estudadas para reduzir os efeitos dos desvanecimentos. Dentre as técnicas utilizadas para reduzir esses efeitos é usada a recepção por diferentes antenas, em diferentes posições, e em diferentes frequências de RF sempre com a mesma informação de banda básica, e também diferentes polarizações e ângulos de incidência ou rotas. Essas técnicas são chamadas diversidade. 
+
+Outro método proposto é a técnica que  consiste em introduzir redundância por meio de uma escolha adequada do ângulo de referência de uma constelação QAM  combinada com o entrelaçamento independente das componentes dos símbolos a serem transmitidos, que pode ser chamada de diversidade de modulação~\cite{Lopes2003} ou rotação da constelação~\cite{Feideropoulou2007},~\cite{Caldero2011},~\cite{Caldero2009}. 
+
+O esquema QAM foi primeiro proposto por C. R. Cahn, em 1960~\cite{Cahn1960}. Ele estendeu a modulação de fase para modulação em fase com múltiplas amplitudes. Isto é, há mais de uma amplitude associada a uma fase. Neste esquema,  o sinal transmitido é dado por
+\begin{equation}
+\label{eq:t1}
+s(t) =  \sum_{n=-\infty}^{+\infty} a_n p(t-nT_S) \cos(\omega_c t)  +  \sum_{n=-\infty}^{+\infty} b_n p(t-nT_S) \sin(\omega_c t),
+\end{equation}
+em que
+\[ a_n, b_n = \pm d, \pm 3d, \ldots, \pm(\sqrt{M}-1)d   \]
+\[ p(t) = \left\{ \begin{array}{cl}
+                  1, & 0 \leq t \leq T_S \\
+		  0, & \mbox{caso contrário,}
+		  \end{array} \right. \]
+em que $\omega_c$ e  $A$ são a frequência e a amplitude da portadora, respectivamente.
+
+Pode ser observado a partir da Equação~\ref{eq:t1} que a informação transmitida em uma componente é independente da informação transmitida na outra. Além do mais, a transmissão dos sinais em canais com desvanecimento independente pode introduzir um ganho de diversidade se houver redundância entre as duas componentes. 
+
+A introdução de redundância no esquema QAM pode ser realizada combinando a escolha do ângulo de referência da constelação de sinais, $\theta$, como mostrado na Figura~\ref{fig:ConsRot}, com o entrelaçamento independente das componentes~\cite{slimane98}. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.7]{rotacao/const-rocionada.png}
+\caption{Constelação 4-QAM: referência ($\circ$) e girada por um ângulo $\theta$ ($\bullet$).}
+\label{fig:ConsRot}
+\end{figure}
+
+No processo de entrelaçamento, as componentes em fase e quadratura de um símbolo transmitido são afetados por desvanecimentos independentes. O resultado dessa técnica é aumentar a robustez do receptor em cenários de propagação com profundo desvanecimento. Para a constelação rotacionada, o sinal transmitido pode ser escrito como 
+\begin{equation}
+s(t) =   \sum_{n=-\infty}^{+\infty} x_n p(t-nT_S) \cos(\omega_c t) +  \sum_{n=-\infty}^{+\infty} y_{n-k} p(t-nT_S) \sin(\omega_c t),
+\end{equation}
+na qual $k$ é um inteiro que representa o atraso (expresso em número de símbolos)  introduzido pelo entrelaçamento entre as componentes $I$ e $Q$.
+Além disso, 
+\begin{subequations} %início do subequations
+\label{eq:xn}
+\begin{equation}
+x_n =  a_n \cos\theta - b_n \sin\theta 
+\end{equation}
+e 
+\begin{equation}
+	y_n =  a_n \sin\theta + b_n \cos\theta  
+\end{equation}
+\end{subequations} %fim do subequations
+são os novos símbolos QAM\footnote{É importante observar que, na prática, os \textit{bits} de entrada podem ser mapeados diretamente na constelação girada, sem a necessidade de  implementar as fórmulas da Equação~\ref{eq:xn}.}. O diagrama de blocos do transmissor que implementa o procedimento é
+apresentado na Figura~\ref{fig::block}. 
+
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=1]{rotacao/Tudo2}
+\caption{Diagrama de blocos do sistema simulado~\cite{Lopes2003}.}
+\label{fig::block}
+\end{figure}
+
+
+O ganho de desempenho proporcionado por essa técnica é fundamentado nos picos dos desvanecimentos serem profundos, mas de curta duração, eles podem degradar toda informação (componentes em fase e em quadratura de um símbolo) em uma transmissão convencional. Isto dificilmente  ocorre com o uso da constelação rotacionada, pois as componentes de um símbolo são transmitidas em instantes de tempo distintos e existe redundância entre as componentes em fase e quadratura. 
+
+O ganho de desempenho obtido quando se utiliza constelações rotacionadas depende da escolha do ângulo de rotação. O ângulo de rotação ótimo depende da modulação escolhida e do tipo de canal~\cite{Caldero2009}. Uma característica interessante desse esquema é que o valor de $\theta$ não influencia o desempenho do sistema quando os sinais transmitidos são afetados apenas pelo ruído gaussiano branco (canal AWGN), pois a distância euclidiana entre os símbolos da constelação não depende do ângulo~$\theta$~\cite{Lopes2003}. Por esse motivo uma avaliação do efeito dessa técnica em um canal Rice é interessante, já que o sinal recebido nesse canal resulta de uma propagação com múltiplos percursos e uma componente de visada direta.
+
+
+Observa-se também que a eficiência espectral do sistema é mantida porque, a cada intervalo de sinalização, dois \textit{bits} são transmitidos independentemente do valor de $\theta$. Além do mais, a complexidade do esquema é relativamente baixa, pois requer apenas a adição de entrelaçadores no transmissor, uma vez que os \textit{bits} de entrada podem ser mapeados diretamente na constelação desejada. 
+
+Assumindo que o canal de comunicações móveis é caracterizado por desvanecimento rápido e plano, o sinal na entrada do receptor, denotado por
+$r(t)$, é dado por 
+\begin{equation}
+r(t) = \alpha(t) s(t) + \eta(t),
+\end{equation}
+em que  $\eta(t)$ representa o ruído aditivo modelado por um processo gaussiano branco, complexo, com média nula e variância $N_0/2$ por
+dimensão. Além disso, o fator multiplicativo $\alpha(t)$ é modelado  por um processo gaussiano complexo estacionário em sentido amplo com densidade espectral de potência (DEP) dada por 
+\begin{equation}
+G(f)= 
+\begin{cases}
+\frac{\displaystyle 1}{\sqrt{\displaystyle 1-\left( {f}/{f_{D}}\right) ^{2}}},&\text{ se } |f| <  f_{D} \\ 
+0,& \text{ se } |f| \geq f_{D},
+\end{cases} \label{eq:dep}
+\end{equation}
+em que $f_{D}$ é o máxima frequência Doppler~\cite{proakis89}. 
