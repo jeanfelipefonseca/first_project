@@ -2,18 +2,44 @@
 \chapter{Introdução}
 \label{introducao}
 
-Nas comunicações móveis, quando há uma linha de visada (LOS) entre o transmissor e o receptor, o sinal recebido %pode ser escrito como a soma de exponenciais complexas e um processo Gaussiano de faixa estreita, que são conhecidos 
-é descrito como uma componente de visada direta e a componente de múltiplos percursos, respectivamente. Esse sinal recebido é conhecido por ter a distribuição Rice~\cite{Doukas2006}. 
+Nos dias atuais, as aplicações multimídia tem se tornado mais flexíveis e mais poderosas com a evolução dos semicondutores e o desenvolvimento de novos métodos de processamento de sinais digitais.
+Devido à limitação da largura de banda do canal e dos rigorosos requisitos de reprodução de vídeo em tempo real, a codificação é um processo indispensável para muitas aplicações de comunicação visual que requerem taxas de compressão muito alta. A grande quantidade de correlação temporal entre quadros adjacentes em uma seqüência de vídeo, também chamada de redundância temporal, deve ser devidamente identificada e eliminada para garantir essas taxas de compressão~\cite{Kamolrat2009}.
 
-A relação entre as componentes de visada direta e a componente difusa é dada pelo o fator de Rice, $K$, que mede a intensidade relativa da componente de visada direta, e, portanto, é uma medida da qualidade da transmissão. O valor do fator de Rice é uma medida de desvanecimento, com $K = 0$ sendo o pior caso do desvanecimento (\textit{Rayleigh fading}) e $K = \infty$ representando a ausência de desvanecimento.
+Com o aumento na popularidade das comunicações de vídeo, a qualidade da experiência do usuário passam a ser uma das preocupações mais importantes na concepção e avaliação de sistemas multimídia~\cite{Liu}.
 
-Esse desvanecimento, causado por múltiplos percursos em canais de comunicação sem fio, pode degradar o desempenho dos sistemas de comunicação digital. Assim, várias técnicas têm sido propostas para melhorar seu desempenho. Entre elas, pode-se citar as técnicas de diversidade, os esquemas de modulação codificada~\cite{Lopes2003} e a rotação da constelação.
+Em uma cadeia de transmissão de vídeo, vários fatores influenciam e prejudicam a qualidade da imagem exibida resultante. Um desses fatores é o próprio algoritmo de codificação de fonte. Como consequência da codificação com perdas, uma degradação visível da qualidade do vídeo pode ser observada~\cite{Wolff2006}.
 
-A rotação da constelação é uma técnica que  consiste em introduzir redundância por meio de uma escolha criteriosa do ângulo de referência de uma constelação QAM, combinada com o entrelaçamento independente das componentes dos símbolos a serem transmitidos~\cite{Feideropoulou2007,Caldero2011,Caldero2009}.%,~\cite{Caldero2011},~\cite{Caldero2009}.
+\chapter{Revisão}
+\label{revisao}
 
-Essa técnica pode melhorar o desempenho de sistemas de comunicações móveis considerando a ausência de erros de estimação da resposta ao impulso (RI) do canal e que o canal de comunicações está sujeito aos efeitos do desvanecimento plano~\cite{kenneth,slimane98,boutros.98.7,jelicic95,divsalar88}. 
+\cite{Communications2008}
 
-Neste projeto são mostrados métodos de estimação do fator $K$ de Rice, assim como valores de $K$ para diferentes situações. Também é apresentado o desempenho da rotação da constelação para o canal Rice. 
+O objetivo da estimação de movimento é a redução de redundância temporal entre quadros causada pela correlação de objetos em movimento.
+No entanto, a estimação e codificação de vetores de movimento devem ser apropriados aos custos computacionais e taxas de bits de acordo com as perspectivas de cada sistemas de compressão. Dessa forma, é muito importante a relação entre a precisão da estimação de movimento e simplicidade dos campos de vetores de descrição~\cite{Communications2008}.
 
-Para verificar o desempenho do sistema com a rotação da constelação é verificado o ângulo ótimo para as diferentes situações (ambientes, esquemas de modulação). Além da escolha do ângulo ótimo, foi comparado o efeito da rotação verificando a BER do sistema com e sem a rotação da constelação.
+A abordagem mais popular é a de reduzir o número de locais de pesquisa utilizando o pressuposto da superfície de erro unimodal em que o erro da busca diminui monotonicamente quando a posição de melhor busca se aproxima do ponto ótimo global. No entanto, esta hipótese nãoé geralmente satisfeita, resultando em um erro de predição, conhecido como erro de mínimo local.
+
+A estimação de movimento ocupa de $60\%$ a $90$\% do tempo computacional de todo codificador variando das configurações mais simples para as configurações mais complexas, respectivamente. O artigo \cite{Tankariya2012} define e implementa uma técnica de estimação de movimento fracionada em que todo processo ocupa apenas metade do tempo computacional em que um codificador padrão executaria essa tarefa.
+
+
+Uma solução para a redução da quantidade de esforço computacional é usar os dados da sequência de vídeo no domínio codificado. Abordagens de processamento de vídeo no domínio codificado são recentes e menos exploradas em comparação com o processamento no domínio de pixel. Um exemplo de um algoritmo simples e rápido para a detecção de alterações de domínio codificado é apresentado por \cite{Bracamonte2005}.
+
+O processamento no domínio codificado evita a decodificação e reconstrução completa do vídeo, o qual fornece um potencial para processamento em tempo real de fluxos de vídeo múltiplos, por exemplo. O processamento no domínio codificado tem também a vantagem de extrair dados do fluxo de vídeo, que são gerados utilizando os dados originais não comprimidos, os que não estarão disponíveis durante o processamento do fluxo decodificado~\cite{Szczerba2009}. 
+
+
+
+%Nas comunicações móveis, quando há uma linha de visada (LOS) entre o transmissor e o receptor, o sinal recebido %pode ser escrito como a soma de exponenciais complexas e um processo Gaussiano de faixa estreita, que são conhecidos 
+%é descrito como uma componente de visada direta e a componente de múltiplos percursos, respectivamente. Esse sinal recebido é conhecido por ter a distribuição Rice~\cite{Doukas2006}. 
+%
+%A relação entre as componentes de visada direta e a componente difusa é dada pelo o fator de Rice, $K$, que mede a intensidade relativa da componente de visada direta, e, portanto, é uma medida da qualidade da transmissão. O valor do fator de Rice é uma medida de desvanecimento, com $K = 0$ sendo o pior caso do desvanecimento (\textit{Rayleigh fading}) e $K = \infty$ representando a ausência de desvanecimento.
+%
+%Esse desvanecimento, causado por múltiplos percursos em canais de comunicação sem fio, pode degradar o desempenho dos sistemas de comunicação digital. Assim, várias técnicas têm sido propostas para melhorar seu desempenho. Entre elas, pode-se citar as técnicas de diversidade, os esquemas de modulação codificada~\cite{Lopes2003} e a rotação da constelação.
+%
+%A rotação da constelação é uma técnica que  consiste em introduzir redundância por meio de uma escolha criteriosa do ângulo de referência de uma constelação QAM, combinada com o entrelaçamento independente das componentes dos símbolos a serem transmitidos~\cite{Feideropoulou2007,Caldero2011,Caldero2009}.%,~\cite{Caldero2011},~\cite{Caldero2009}.
+%
+%Essa técnica pode melhorar o desempenho de sistemas de comunicações móveis considerando a ausência de erros de estimação da resposta ao impulso (RI) do canal e que o canal de comunicações está sujeito aos efeitos do desvanecimento plano~\cite{kenneth,slimane98,boutros.98.7,jelicic95,divsalar88}. 
+%
+%Neste projeto são mostrados métodos de estimação do fator $K$ de Rice, assim como valores de $K$ para diferentes situações. Também é apresentado o desempenho da rotação da constelação para o canal Rice. 
+%
+%Para verificar o desempenho do sistema com a rotação da constelação é verificado o ângulo ótimo para as diferentes situações (ambientes, esquemas de modulação). Além da escolha do ângulo ótimo, foi comparado o efeito da rotação verificando a BER do sistema com e sem a rotação da constelação.
 
