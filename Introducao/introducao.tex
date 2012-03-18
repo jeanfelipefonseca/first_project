@@ -12,7 +12,7 @@ Em uma cadeia de transmissão de vídeo, vários fatores influenciam e prejudicam a
 \chapter{Revisão}
 \label{revisao}
 
-\cite{Communications2008}
+
 
 O objetivo da estimação de movimento é a redução de redundância temporal entre quadros causada pela correlação de objetos em movimento.
 No entanto, a estimação e codificação de vetores de movimento devem ser apropriados aos custos computacionais e taxas de bits de acordo com as perspectivas de cada sistemas de compressão. Dessa forma, é muito importante a relação entre a precisão da estimação de movimento e simplicidade dos campos de vetores de descrição~\cite{Communications2008}.
@@ -25,6 +25,132 @@ A estimação de movimento ocupa de $60\%$ a $90$\% do tempo computacional de todo
 Uma solução para a redução da quantidade de esforço computacional é usar os dados da sequência de vídeo no domínio codificado. Abordagens de processamento de vídeo no domínio codificado são recentes e menos exploradas em comparação com o processamento no domínio de pixel. Um exemplo de um algoritmo simples e rápido para a detecção de alterações de domínio codificado é apresentado por \cite{Bracamonte2005}.
 
 O processamento no domínio codificado evita a decodificação e reconstrução completa do vídeo, o qual fornece um potencial para processamento em tempo real de fluxos de vídeo múltiplos, por exemplo. O processamento no domínio codificado tem também a vantagem de extrair dados do fluxo de vídeo, que são gerados utilizando os dados originais não comprimidos, os que não estarão disponíveis durante o processamento do fluxo decodificado~\cite{Szczerba2009}. 
+
+
+\section{O Codificador H.264 AVC}
+
+\section{A Estimação de movimento baseada em blocos}
+
+Os algoritmos de busca de blocos são a técnica mais popular usada na estimação de movimento de codificadores de vídeo. Em geral, esses algoritmos se baseiam na divisão do quadro de luminância em macroblocos não sobrepostos de tamanho N$\times$N que, por sua vez, são comparados com o macrobloco correspondente e seus vizinhos adjacentes no quadro de referência para criar um vetor que estipula a sua movimentação, encontrando o macrobloco correspondente do mesmo tamanho $N{\times}N$ na área de busca no quadro de referência.
+A posição do macrobloco correspondente no quadro de referência dá o vetor de movimento (MV) do macrobloco corrente, como mostrado na Figura 1. Este vetor de movimento é constituído das coordenadas ($x,y$) do canto esquerdo-superior do macrobloco corrente representando as coordenadas iniciais do vetor e das coordenadas ($x,y$) do canto esquerdo-superior do macrobloco do quadro de referência. Estas coordenadas podem ser positivas ou negativas. Um valor positivo significa um movimento para a direita e/ou um movimento descendente e um valor negativo significa um movimento para a esquerda e/ou movimento ascendente.
+
+Esses vetores de movimento serão usados no decodificador para predizer um novo quadro a partir do quadro de referência. Esse processo é chamado de compensação de movimento e está ilustrado no Figura 2. A métrica usada é geralmente determinada usando uma das medidas de distorção de blocos (BDM -- \textit{Block Distortion Measure}) como a diferença média absoluta (MAD -- \textit{Mean Absolute Difference}), a soma das diferenças absolutas (SAD -- \textit{Sum of Absolute Differences}) ou erro médio quadrático (MSE -- \textit{Mean Squared Error}). O macrobloco com o menor custo, retornado por uma dessas métricas, é considerado o correspondente ao macrobloco corrente.
+
+\section{Medidas de distorção de blocos (BDM -- \textit{Block Distortion Measure})}
+\label{sec:medidas}
+
+Para cada desses critérios um bloco de tamanho $N{\times}N$ é considerado. O valor do \textit{pixel} na coordenada ($n_1, n_2$) no quadro $k$ é dado por $S(n_1, n_2, k)$ em que $0 {\leq} n_1$, $n_2 {\leq} N-1$. O quadro $k$ representa o quadro corrente, assim como o bloco de \textit{pixels} descrito acima representa o bloco corrente.	
+Nas subseções \ref{sec:MSE}, \ref{sec:MAD}, \ref{sec:MPC} são descritas três medidas de distorção de bloco empregadas em codificadores de vídeo.  
+
+\subsection{Erro Médio Quadrático}
+\label{sec:MSE}
+
+Considerando $(k-l)$ como os quadros de referência passados, para $(l > 0)$, no processo de estimação de movimento, o erro médio quadrático para um bloco de $N{\times}N$ \textit{pixels} é dado por~\ref{eq:MSE}~\cite{Kamolrat2009}~\cite{Barjatya2004}.
+
+\begin{equation}
+MSE(i,j) = \frac{1}{N^2}\sum^{N - 1}_{n_1 = 0}\sum^{N - 1}_{n_2 = 0}[S(n_1, n_2, k) - S(n_1 + i, n_2 + j, k)]^2
+\label{eq:MSE}
+\end{equation}  
+
+O significado físico da equação~\ref{eq:MSE} deve ser bem compreendida. Considera-se um bloco de pixels de tamanho $N{\times}N$ no quadro de referência a um deslocamento de $(i,j)$, em que $i$ e $j$ são números inteiros em relação à posição do bloco candidato no quadro corrente.
+
+O erro médio médio quadrático é calculado para cada posição $(i,j)$ de deslocamento dentro de um intervalo de pesquisa especificado na imagem de referência e o deslocamento, que dá o menor valor de MSE, é designado como vetor de deslocamento que é comumente conhecido como vetor de movimento e é dado por~\ref{eq:deslocamentoMSE}.
+
+\begin{equation}
+[d_1, d_2] = \min_{i,j}[MSE(i,j)]
+\label{eq:deslocamentoMSE}
+\end{equation}
+
+O cálcudo erro médio quadrático requer o processamento de $N^2$ subtrações, $N^2$ multiplicações e $(N^2 - 1)$ adições para cada bloco candidato em cada posição da busca. Isto é computacionalmente dispendioso e um critério mais simples, como definido na subseção~\ref{sec:MAD} é muitas vezes preferido sobre o critério MSE.
+
+\subsection{Diferença Absoluta Média}
+\label{sec:MAD}
+
+Como o critério MSE, a diferença média absoluta (MAD -- \textit{Mean Absolute Difference}) também faz com que os valores de erro sejam sempre positivos, mas em vez de somar as diferenças de quadrados, as diferenças absolutas é que serão somadas. A medida das diferença média absoluta, a MAD, é definida em~\ref{eq:MAD}~\cite{Mahmoud2006}. 
+
+\begin{equation}
+MAD(i,j) = \frac{1}{N^2}\sum^{N - 1}_{n_1 = 0}\sum^{N - 1}_{n_2 = 0}[S(n_1, n_2, k) - S(n_1 + i, n_2 + j, k)]
+\label{eq:MAD}
+\end{equation}  
+
+O vetor de movimento é determinado de forma semelhante à medida MSE, que usa Fórmula~\ref{eq:deslocamento}, e é definada por~\ref{eq:deslocamentoMAD}.
+
+\begin{equation}
+[d_1, d_2] = \min_{i,j}[MSE(i,j)]
+\label{eq:deslocamentoMAD}
+\end{equation}
+
+O critério MAD requer o processamento de $N^2$ subtrações de valores absolutos e $N^2$ adições para cada bloco candidato em cada posição de busca determinada pelo algoritmo de estimação de movimento. A ausência de multiplicações faz desse critério, uma opção computacionalamente menos dispendiosa, facilitando assim possíveis implementações em \textit{hardware}.
+
+\subsection{Correspondência na Contagem dos \textit{Pixels}}
+\label{sec:MPC}
+
+Nesse critério, os \textit{pixels} de um bloco candidato $B$ são comparados com os \textit{pixels} correspondentes do bloco com deslocamento $(i,j)$ no quadro de referência e aqueles que são menores do que um limiar especificado são contados. A contagem para a comparação e o deslocamento $(i,j)$ para os quais a contagem é máxima corresponde as coordenadas do vetor de movimento e é expressa em um função binária $count(n_1, n_2){\forall}(n_1, n_2) \in B$ definida em~\ref{eq:MPC}.
+
+\begin{equation}
+ count(n_1, n_2) = \left\{ \begin{array}{cl}
+                          1, & \mbox{se } \left|S(n_1, n_2, k) - S(n_1 + i, n_2 + j, k - l)\right| \leq \theta \\
+		                      0, & \mbox{caso contrário}
+		                 \end{array} \right. 
+\label{eq:count}
+\end{equation}  
+
+em que $\theta$ é um limiar pré-determinado. A correspodência na contagem de \textit{pixels} para um deslocamento $(i,j)$ é dada pelo valor acumulado da equação~\ref{eq:count} é em definida por~\ref{eq:MPC}
+
+\begin{equation}
+MPC(i,j) = \sum^{N - 1}_{n_1 = 0}count(n_1, n_2)
+\label{eq:MAD}
+\end{equation}
+
+e as respectivas coordenadas finais do vetor de movimento são definadas por~\ref{eq:deslocamentoMPC}
+\begin{equation}
+[d_1, d_2] = \min_{i,j}[MPC(i,j)]
+\label{eq:deslocamentoMPC}
+\end{equation}
+
+\section{Os algoritmos de estimação de movimento implementados no codificador H.264 JM18.2}
+
+\subsection{Busca Exaustiva}
+
+Na estimação de movimento por busca exaustiva (FS -- \textit{Full Search})~\cite{Group2008} a busca pelo bloco candidato é exaustivamente realizada em todas as posições possíveis dentro de um raio de busca $w$ pré-determinado no quadro de referência. A Figura X ilustra esse princípio.
+
+%Figura
+
+Um bloco de $N{\times}N$ \textit{pixels} é considerado dentro do quadro candidato como mostrado na Figura X na coordenada $(r,s)$. Considera-se então uma janela de pesquisa tendo um raio de busca ${\pm}w$ em ambas direções no quadro de referência. Para cada posição de busca $(2w+1)^2$, o bloco candidato é comparado com um bloco de tamanho $N{\times}N$ de acordo com o critério de distorção utilizado e o bloco com menor distorção, juntamente com o vetor de movimento, são determinados depois que todas as $(2w+1)^2$ posições forem avaliadas.
+
+A busca exaustiva tem um resultado ótimo, desde de que o intervalo de busca seja corretamente definido, garantindo assim a determinação do deslocamento exato do bloco candidato. No entanto, esse processo exige processamentos elevados, muitas vezes impeditivos para determinadas aplicações, principalmente quando aplicado a codificação de vídeo em tempo real ou vídeos com altas resoluções com duas ou mais visões. Para cada posição de busca são exigidos $O(N^2)$ processamentos (adições, subtrações, multiplicações, etc) e uma vez que existem $(2w+1)^2$ posições, o número de processamentos considerando os critérios de distorção descrito na seção~\ref{sec:medidas} são apresentados na Tabela~\ref{tab:complex}.  
+
+\begin{table}[!htbp]%[htbp]
+\small
+\begin{center}
+\caption{Complexidade computacional da busca exaustiva}
+\vspace{0.5cm}
+\begin{tabular}{|c|c|c|c|}
+\hline \textbf{Criterio de Distorção} & \multicolumn{3}{|c|}{\textbf{Número de processamentos}} \\ 
+\hline               & Adições/Subtrações    & Multiplicações   & Comparações         \\
+\hline MSE           & $(2N^{2}-1)(2w+1)^2$  & $2N^{2}(2w+1)^2$ & $(2w+1)^2$          \\
+\hline MAD           & $(2N^{2}-1)(2w+1)^2$  & 				          & $(2w+1)^2$          \\
+\hline MPC           & $(2N^{2}-1)(2w+1)^2$  &        				  & $2N^{2}(2w+1)^2$    \\
+\hline
+\end{tabular} 
+\label{tab:complex}
+\end{center}
+\end{table}
+
+Para exemplificar os valores da Tabela~\ref{tab:complex}, dado um valor $w=7$~\textit{pixels}, considerando que a melhor busca encontra-se com um deslocamento menor igual a $7$ \textit{pixels} com relação a posição no bloco corrente, será necessário realizar o procedimento de busca em $15{\times}15 = 255$ ($N{\times}N$) posições. Para implementações que demandem menos processamento, alguma alternativas com menos posições de busca e com resultados semelhantes foram desenvolvidas e são exploradas na maioria dos codificadores disponíveis atualmente.
+Entretando, deve-se enfatizar que essas técnicas de pesquisa rápida por não realizarem a busca exaustiva na área de busca podem, no máximo, obterem resultados sub-ótimos.  
+
+
+\subsection{Fast Full Search}
+
+\subsection{UMHEX}
+
+\subsection{UMHEXSIMPLE}
+
+\subsection{EPZS}
+
+
+
 
 
 
